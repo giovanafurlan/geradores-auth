@@ -1,0 +1,45 @@
+{
+  "language-name": "🇧🇷 Português",
+
+  "geradores": "Geradores",
+
+  "__comment6.2__": "Gerador de Title",
+  "geradorTitle": "Gerador de Title",
+  "geradorTitles": "Gerador de Title e Description",
+  "palavraChave": "Palavra Chave",
+  "tipoConteudo": "Tipo de conteúdo",
+  "outros": "Outros",
+  "loja": "Loja",
+  "gerarTitleDescription": "Gerar Title e Description",
+  "h1": "H1 sugerido",
+  "copiar": "copiar",
+  "copiado": "copiado",
+
+  "__comment6.3__": "Gerador de Anúncios",
+  "geradorAds": "Gerador de Anúncios",
+  "nomeEmpresa": "Nome da empresa",
+  "audiencia": "Audiência",
+  "descricaoEmpresa": "Descrição da empresa",
+  "adicionar": "Adicionar",
+  "adicionarPalavraChave": "Palavras chaves para adicionar",
+  "evitarPalavraChave": "Palavras chaves para evitar",
+  "titulo": "Título",
+  "descricao": "Descrição",
+  "gerar": "Gerar",
+  "limpar": "Limpar",
+  "salvar": "Salvar",
+
+  "__comment6.4__": "Gerador de Texto",
+  "geradorTexto": "Gerador de Texto",
+  "numPalavras": "Número de Palavras",
+  "urlArtigo": "URL de um artigo para usar como base",
+  "siteEmpresa": "Site da empresa",
+  "aguarde": "Gerando texto... Aguarde",
+
+  "__comment6.5__": "Gerador de Mídias Sociais",
+  "topico": "Tópico",
+
+  "__comment6.6__": "Gerador de Descrição de Produtos",
+  "nomeProduto": "Nome do produto",
+  "caracteristicasProduto": "Características do produto"
+}

@@ -1,0 +1,45 @@
+{
+  "language-name": "🇺🇸 English",
+  
+  "geradores": "Geradores",
+
+  "__comment6.2__": "Gerador de Title",
+  "geradorTitle": "Title generator",
+  "geradorTitles": "Title and Description Generator",
+  "palavraChave": "Keyword",
+  "tipoConteudo": "Content Type",
+  "outros": "Others",
+  "loja": "Shop",
+  "gerarTitleDescription": "Generate Title and Description",
+  "h1": "H1 suggested",
+  "copiar": "copy",
+  "copiado": "copied",
+
+  "__comment6.3__": "Gerador de Anúncios",
+  "geradorAds": "Ads Generator",
+  "nomeEmpresa": "Company name",
+  "audiencia": "Audience",
+  "descricaoEmpresa": "Company description",
+  "adicionar": "Add",
+  "adicionarPalavraChave": "Keywords to add",
+  "evitarPalavraChave": "Keywords to avoid",
+  "titulo": "Title",
+  "descricao": "Description",
+  "gerar": "Generate",
+  "limpar": "Clear",
+  "salvar": "Save",
+
+  "__comment6.4__": "Gerador de Texto",
+  "geradorTexto": "Text generator",
+  "numPalavras": "Number of words",
+  "urlArtigo": "URL of an article to use as a base",
+  "siteEmpresa": "Company website",
+  "aguarde": "Generating text... Please wait",
+
+  "__comment6.5__": "Gerador de Mídias Sociais",
+  "topico": "Topic",
+
+  "__comment6.6__": "Gerador de Descrição de Produtos",
+  "nomeProduto": "Product name",
+  "caracteristicasProduto": "Product features"
+}
