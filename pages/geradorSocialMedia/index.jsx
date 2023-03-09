@@ -30,9 +30,9 @@ export default function GeradorSocialMedia() {
   const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState('hidden');
 
-  const [topic, setTopic] = useState('Conta do Quebrando Tabu focado em questões sociais');
+  const [topic, setTopic] = useState();
 
-  const [keywords, setKeywords] = useState(['midia social', 'tabu']);
+  const [keywords, setKeywords] = useState([]);
   const [id, setId] = useState(1);
   const [name, setName] = useState('');
 

@@ -52,9 +52,9 @@ export default function GeradorTextos() {
   const [visibility2, setVisibility2] = useState('hidden');
 
   const [numPalavras, setNumPalavras] = useState();
-  const [urlArtigo, setUrlArtigo] = useState('https://webpeak.netlify.app/blogs/a-webpeak-e-a-ferramenta-mais-completa-de-marketing-digital-do-mercado');
-  const [nomeEmpresa, setNomeEmpresa] = useState('Webpeak');
-  const [siteEmpresa, setSiteEmpresa] = useState('https://www.webpeak.com.br');
+  const [urlArtigo, setUrlArtigo] = useState();
+  const [nomeEmpresa, setNomeEmpresa] = useState();
+  const [siteEmpresa, setSiteEmpresa] = useState();
 
   // const [text, setText] = useState();
 
@@ -121,7 +121,7 @@ export default function GeradorTextos() {
       <Menu>
         <Flex
           flexDir={'column'}
-          gap='4'>
+          gap='6'>
           <FormControl
             isRequired>
             <FormLabel>
@@ -132,7 +132,7 @@ export default function GeradorTextos() {
               onChange={setNumPalavras}>
               <Grid
                 templateColumns={'repeat(4,1fr)'}
-                gap='2'
+                gap='4'
                 w='min-content'>
                 <Radio
                   value='500'>

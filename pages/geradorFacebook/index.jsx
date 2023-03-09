@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -20,6 +21,11 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
+import { MdPublic } from 'react-icons/md';
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { TfiComment } from "react-icons/tfi";
+import { TbShare3 } from "react-icons/tb";
+
 import { getDescriptionsAds, getTitlesAds } from "../../services/getApis";
 import CopyClipboard from "../../components/CopyClipboard";
 import Menu from '../../components/Menu';
@@ -35,15 +41,15 @@ export default function GeradorFacebook() {
   const [display, setDisplay] = useState('inline-flex');
   const [display2, setDisplay2] = useState('none');
 
-  const [company, setCompany] = useState('Apple');
-  const [audience, setAudience] = useState('Empresários');
-  const [resume, setResume] = useState('Empresa multinacional especializa em smartphones, tablets e notebooks');
+  const [company, setCompany] = useState();
+  const [audience, setAudience] = useState();
+  const [resume, setResume] = useState();
 
-  const [keywords, setKeywords] = useState(['iphone', 'ipad', 'macbook']);
+  const [keywords, setKeywords] = useState([]);
   const [id, setId] = useState(1);
   const [name, setName] = useState('');
 
-  const [avoidKeywords, setAvoidKeywords] = useState(['samsung', 'xiaomi', 'motorola']);
+  const [avoidKeywords, setAvoidKeywords] = useState([]);
   const [id2, setId2] = useState(1);
   const [name2, setName2] = useState('');
 
@@ -144,7 +150,7 @@ export default function GeradorFacebook() {
         return prevIndex + 1;
       })
     };
-    setInterval(timer, 10000);
+    setInterval(timer, 20000);
 
     //cleanup function in order clear the interval timer
     //when the component unmounts
@@ -160,7 +166,7 @@ export default function GeradorFacebook() {
         return prevIndex + 1;
       })
     };
-    setInterval(timer, 10000);
+    setInterval(timer, 20000);
 
     //cleanup function in order clear the interval timer
     //when the component unmounts
@@ -371,7 +377,7 @@ export default function GeradorFacebook() {
             lg: 'repeat(3,1fr)',
             sm: 'repeat(1,1fr)'
           }}
-          gap='6'>
+          gap='12'>
           <GridItem>
             <form>
               <Flex
@@ -527,11 +533,10 @@ export default function GeradorFacebook() {
             colSpan={'2'}
             visibility={visibility}>
             <Flex
+              w='2xl'
               flexDir={'column'}
-              bg={bg1}
+              bg={bg}
               display={display}
-              borderRadius={'30px'}
-              p='4'
               gap={'4'}
               alignItems={'initial'}>
               {isLoadingD
@@ -546,11 +551,18 @@ export default function GeradorFacebook() {
                     align={'center'}
                     gap='2'>
                     <Avatar />
-                    <Text>
-                      {company}
-                    </Text>
+                    <Flex
+                      flexDir={'column'}
+                      gap='1'>
+                      <Text
+                        fontWeight={'semibold'}>
+                        {company}
+                      </Text>
+                      <MdPublic color="gray" />
+                    </Flex>
                   </Flex>
-                  <Text>
+                  <Text
+                    mb='-2'>
                     {arrayDescriptions[index]}
                     {/* {title1}/{title2}/{title3}/{title4}/{title5}/{title6} */}
                   </Text>
@@ -561,36 +573,87 @@ export default function GeradorFacebook() {
                 <CircularProgress
                   isIndeterminate />
                 :
-                <Flex
-                  w='full'
-                  flexDir={'column'}
-                  bg={bg2}
-                  gap='2'
-                  borderRadius={'lg'}>
-                  <Image
-                    w='md'
-                    h='xs'
-                    m='0 auto'
-                    borderRadius={'lg'}
-                    src='/images/facebook.png' />
-                  <Text
-                    px='2'
-                    textTransform={'uppercase'}>
-                    {company}.com
-                  </Text>
-                  <Text
-                    px='2'
-                    fontWeight={'bold'}>
-                    {arrayTitles[index]}
-                    {/* {description1}/{description2}/{description3} */}
-                  </Text>
-                  <Text
-                    px='2'
-                    pb='2'>
-                    {arrayTitles[index]}
-                    {/* {description1}/{description2}/{description3} */}
-                  </Text>
-                </Flex>
+                <Box
+                  boxShadow={'base'}>
+                  <Flex
+                    flexDir={'column'}
+                    bg={bg1}
+                    borderRadius={'lg'}>
+                    <Image
+                      src='/images/webpeak.png'
+                      h='md' />
+                    <Flex
+                      flexDir={'column'}
+                      p='2'
+                      fontSize={'14px'}>
+                      <Text
+                        textTransform={'uppercase'}
+                        color={'gray.600'}>
+                        {company}.com
+                      </Text>
+                      <Flex
+                        align='center'
+                        justifyContent={'space-between'}>
+                        <Text
+                          fontWeight={'bold'}
+                          fontSize='17px'>
+                          {arrayTitles[index]}
+                          {/* {description1}/{description2}/{description3} */}
+                        </Text>
+                        <Button
+                          fontSize={'sm'}
+                          bg={bg2}
+                          py='1'
+                          cursor={'default'}
+                          h='min-content'>Saiba Mais</Button>
+                      </Flex>
+                      <Text
+                        color={'gray.600'}>
+                        {arrayTitles[index]}
+                        {/* {description1}/{description2}/{description3} */}
+                      </Text>
+                    </Flex>
+                    <Divider />
+                  </Flex>
+                  <Flex
+                    justifyContent={'space-between'}
+                    px='4'
+                    py='2'
+                    fontSize={'15px'}
+                    color='gray.600'>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <AiFillLike color='#3b5998' />
+                      100 curtidas
+                    </Flex>
+                    20 comentários ‎ ‎ 9 compartilhamentos
+                  </Flex>
+                  <Flex
+                    justifyContent={'space-around'}
+                    p='2'
+                    fontSize={'15px'}
+                    color='gray.600'>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <AiOutlineLike />
+                      Curtir
+                    </Flex>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <TfiComment />
+                      Comentar
+                    </Flex>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <TbShare3 />
+                      Compartilhar
+                    </Flex>
+                  </Flex>
+                </Box>
               }
               {isLoadingD
                 ?

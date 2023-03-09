@@ -37,7 +37,6 @@ export default function GeradorAds() {
   const [audience, setAudience] = useState();
   const [resume, setResume] = useState();
 
-  const [titles, setTitles] = useState();
   const [title1, setTitle1] = useState();
   const [title2, setTitle2] = useState();
   const [title3, setTitle3] = useState();
@@ -45,7 +44,6 @@ export default function GeradorAds() {
   const [title5, setTitle5] = useState();
   const [title6, setTitle6] = useState();
 
-  const [descriptions, setDescriptions] = useState();
   const [description1, setDescription1] = useState();
   const [description2, setDescription2] = useState();
   const [description3, setDescription3] = useState();
@@ -144,8 +142,6 @@ export default function GeradorAds() {
     };
     setInterval(timer, 10000);
 
-    //cleanup function in order clear the interval timer
-    //when the component unmounts
     return () => { clearInterval(timer); }
   }, []);
 
@@ -160,27 +156,22 @@ export default function GeradorAds() {
     };
     setInterval(timer, 10000);
 
-    //cleanup function in order clear the interval timer
-    //when the component unmounts
     return () => { clearInterval(timer); }
   }, []);
 
   const handleKeypress = e => {
-    //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       handleAddClick();
     }
   }
 
   const handleKeypress2 = e => {
-    //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       handleAddClick2();
     }
   }
 
   const handleAddClick = (event) => {
-    // event.preventDefault();
     if (name != '') {
       setId(id => id + 1);
       setKeywords(list => [...list, name]);
@@ -541,7 +532,6 @@ export default function GeradorAds() {
                   color={'blue.400'}
                   fontSize='lg'>
                   {arrayTitles[index]}
-                  {/* {title1}/{title2}/{title3}/{title4}/{title5}/{title6} */}
                 </Text>
               }
               {isLoadingD
@@ -551,7 +541,6 @@ export default function GeradorAds() {
                 :
                 <Text>
                   {arrayDescriptions[index]}
-                  {/* {description1}/{description2}/{description3} */}
                 </Text>
               }
               {isLoadingD

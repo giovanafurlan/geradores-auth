@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Box,
   Button,
   CircularProgress,
   Flex,
@@ -12,7 +11,6 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  Text,
   Textarea,
   useColorModeValue
 } from "@chakra-ui/react";
@@ -30,9 +28,9 @@ export default function GeradorYoutube() {
   const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState('hidden');
 
-  const [topic, setTopic] = useState('Canal do Youtube Multishow');
+  const [topic, setTopic] = useState();
 
-  const [keywords, setKeywords] = useState(['tv', 'programas', 'bbb']);
+  const [keywords, setKeywords] = useState([]);
   const [id, setId] = useState(1);
   const [name, setName] = useState('');
 

@@ -36,7 +36,7 @@ export default function GeradorTitle() {
 
   const [type, setType] = useState();
 
-  const [keywords, setKeyword] = useState(['e-commerce', 'amazon']);
+  const [keywords, setKeyword] = useState([]);
 
   const [id, setId] = useState(1);
   const [name, setName] = useState('');

@@ -30,9 +30,9 @@ export default function GeradorInstagram() {
   const [isLoading, setIsLoading] = useState(false);
   const [visibility, setVisibility] = useState('hidden');
 
-  const [topic, setTopic] = useState('Conta do instagram gossip do dia focado em atualizações sobre a vida dos famosos');
+  const [topic, setTopic] = useState();
 
-  const [keywords, setKeywords] = useState(['fofoca', 'famosos']);
+  const [keywords, setKeywords] = useState([]);
   const [id, setId] = useState(1);
   const [name, setName] = useState('');
 
