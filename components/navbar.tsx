@@ -1,4 +1,4 @@
-import { Button, Container, Flex } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthContext";
@@ -33,12 +33,16 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
       <Flex gap="2" w="min-content" float={"right"} m="2">
         {!user.uid ? (
           menuItems.map((item) => (
-            <Button variant={"button"} key={item.id}>
-              <Link href={item?.link}>{item?.name}</Link>
-            </Button>
+            <Link key={item.id} href={item?.link}>
+              <Button variant={"button"}>
+                {item?.name}{" "}
+              </Button>
+            </Link>
           ))
         ) : (
-          <Button onClick={handleLogout} variant='button'>Logout</Button>
+          <Button onClick={handleLogout} variant="button">
+            Logout
+          </Button>
         )}
       </Flex>
       {children}

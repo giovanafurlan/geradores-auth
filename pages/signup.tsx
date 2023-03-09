@@ -7,11 +7,16 @@ import {
   Heading,
   Input,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { FcGoogle } from "react-icons/fc";
 
 interface SignupType {
   email: string;
@@ -19,10 +24,31 @@ interface SignupType {
   password_confirm: string;
 }
 const SignupPage = () => {
+  const bg = useColorModeValue("white", "gray.900");
+
   const { signUp } = useAuth();
   const router = useRouter();
 
   const methods = useForm<SignupType>({ mode: "onBlur" });
+
+  ///
+  const [user, setUser] = useAuthState(auth);
+
+  const googleAuth = new GoogleAuthProvider();
+
+  const logInGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleAuth);
+      router.push("/geradorTitle");
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+  ///
 
   const {
     register,
@@ -41,7 +67,7 @@ const SignupPage = () => {
   };
 
   return (
-    <Container p='10'>
+    <Container p="10">
       <Heading mb="4" textAlign={"center"}>
         Sign Up
       </Heading>
@@ -52,6 +78,8 @@ const SignupPage = () => {
               <FormLabel htmlFor="">Email</FormLabel>
               <Input
                 type="email"
+                borderRadius={"30px"}
+                bg={bg}
                 {...register("email", { required: "Email is required" })}
               />
               {errors.email && <Text>{errors.email.message}</Text>}
@@ -60,6 +88,8 @@ const SignupPage = () => {
               <FormLabel htmlFor="">Password</FormLabel>
               <Input
                 type="password"
+                borderRadius={"30px"}
+                bg={bg}
                 {...register("password", { required: "Password is required" })}
               />
               {errors.password && <Text>{errors.password.message}</Text>}
@@ -68,6 +98,8 @@ const SignupPage = () => {
               <FormLabel htmlFor="">Confirm Password</FormLabel>
               <Input
                 type="password"
+                borderRadius={"30px"}
+                bg={bg}
                 {...register("password_confirm", {
                   required: "Verify your password",
                 })}
@@ -81,6 +113,12 @@ const SignupPage = () => {
             </Button>
           </Flex>
         </form>
+        <Button onClick={logInGoogle} w="full" borderRadius={"30px"} mt="4">
+          <Flex align={"center"} gap="2">
+            <FcGoogle />
+            <Text> Google</Text>
+          </Flex>
+        </Button>
       </FormProvider>
     </Container>
   );

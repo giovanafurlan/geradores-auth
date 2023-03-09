@@ -12,10 +12,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { FcGoogle } from "react-icons/fc";
 interface LoginType {
   email: string;
   password: string;
@@ -27,6 +30,25 @@ const LoginPage = () => {
   const router = useRouter();
 
   const methods = useForm<LoginType>({ mode: "onBlur" });
+
+  ///
+  const [user, setUser] = useAuthState(auth);
+
+  const googleAuth = new GoogleAuthProvider();
+
+  const logInGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleAuth);
+      router.push("/geradorTitle");
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+  ///
 
   const {
     register,
@@ -44,7 +66,7 @@ const LoginPage = () => {
     }
   };
   return (
-    <Container p='10'>
+    <Container p="10">
       <Heading mb="4" textAlign={"center"}>
         Log In
       </Heading>
@@ -80,6 +102,15 @@ const LoginPage = () => {
             </Button>
           </Flex>
         </form>
+        <Button onClick={logInGoogle} w="full" borderRadius={"30px"} mt="4">
+          <Flex align={"center"} gap="2">
+            <FcGoogle />
+            <Text> Google</Text>
+          </Flex>
+        </Button>
+        {/* <div onClick={() => auth.signOut}>
+          {user ? "Welcome ," + user.displayName : ""}
+        </div> */}
       </FormProvider>
     </Container>
   );
