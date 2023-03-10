@@ -56,6 +56,7 @@ export default function GeradorAds() {
   const [id2, setId2] = useState(1);
   const [name2, setName2] = useState('');
 
+  const border = useColorModeValue("black", "white");
   const bg = useColorModeValue('white', 'gray.900');
   const color = useColorModeValue('primary', 'white');
 
@@ -403,7 +404,7 @@ export default function GeradorAds() {
                       gap='2'>
                       <Input
                         isRequired={true}
-                        bg={bg}
+                        borderColor={border}
                         value={name}
                         borderRadius={"30px"}
                         onKeyPress={handleKeypress}
@@ -411,14 +412,14 @@ export default function GeradorAds() {
                       <Button
                         onClick={handleAddClick}
                         variant='button'>
-                        Add item
+                        {t('adicionar')}
                       </Button>
                       <Button
                         onClick={handleClear}
                         variant='button-outline'
                         color={color}
                         borderColor={color}>
-                        Clear list
+                        {t('limpar')}
                       </Button>
                     </Flex>
                   </FormControl>
@@ -459,7 +460,7 @@ export default function GeradorAds() {
                       gap='2'>
                       <Input
                         isRequired={true}
-                        bg={bg}
+                        borderColor={border}
                         value={name2}
                         borderRadius={"30px"}
                         onKeyPress={handleKeypress2}
@@ -467,14 +468,14 @@ export default function GeradorAds() {
                       <Button
                         onClick={handleAddClick2}
                         variant='button'>
-                        Add item
+                        {t('adicionar')}
                       </Button>
                       <Button
                         onClick={handleClear2}
                         variant='button-outline'
                         color={color}
                         borderColor={color}>
-                        Clear list
+                        {t('limpar')}
                       </Button>
                     </Flex>
                   </FormControl>
@@ -589,7 +590,7 @@ export default function GeradorAds() {
                   px='2'
                   color={color}
                   fontWeight='normal'>
-                  Visualizar títulos e descrições
+                  {t('visualizar')}
                 </Button>
               </Box>
             </Flex>
@@ -638,6 +639,7 @@ const EditableField = ({
   onChange
 }) => {
   const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue("black", "white");
 
   return (
     <GridItem
@@ -660,6 +662,7 @@ const EditableField = ({
         <Input
           borderRadius={'30px'}
           bg={bg}
+          borderColor={border}
           id={id}
           mt='2'
           value={value || ''}
@@ -678,7 +681,7 @@ const Field = ({
   handleKeyDown,
   onKeyPress
 }) => {
-  const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue("black", "white");
 
   return (
     <FormControl
@@ -689,7 +692,7 @@ const Field = ({
       </FormLabel>
       <Input
         borderRadius={'30px'}
-        bg={bg}
+        borderColor={border}
         id={id}
         value={value || ''}
         onChange={onChange}

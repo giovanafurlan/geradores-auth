@@ -68,6 +68,7 @@ export default function GeradorFacebook() {
   const bg1 = useColorModeValue('gray.100', 'gray.900');
   const bg2 = useColorModeValue('gray.200', 'gray.800');
   const color = useColorModeValue('primary', 'white');
+  const border = useColorModeValue("black", "white");
 
   const route = useRouter();
 
@@ -402,7 +403,7 @@ export default function GeradorFacebook() {
                     id={'description'}
                     borderRadius={'30px'}
                     rows='6'
-                    bg={bg}
+                    borderColor={border}
                     value={resume || ''}
                     onChange={(e) => setResume(e.target.value)} />
                 </FormControl>
@@ -420,7 +421,7 @@ export default function GeradorFacebook() {
                       gap='2'>
                       <Input
                         isRequired={true}
-                        bg={bg}
+                        borderColor={border}
                         value={name}
                         borderRadius={"30px"}
                         onKeyPress={handleKeypress}
@@ -428,14 +429,14 @@ export default function GeradorFacebook() {
                       <Button
                         onClick={handleAddClick}
                         variant='button'>
-                        Add item
+                        {t('adicionar')}
                       </Button>
                       <Button
                         onClick={handleClear}
                         variant='button-outline'
                         color={color}
                         borderColor={color}>
-                        Clear list
+                        {t('limpar')}
                       </Button>
                     </Flex>
                   </FormControl>
@@ -476,7 +477,7 @@ export default function GeradorFacebook() {
                       gap='2'>
                       <Input
                         isRequired={true}
-                        bg={bg}
+                        borderColor={border}
                         value={name2}
                         borderRadius={"30px"}
                         onKeyPress={handleKeypress2}
@@ -484,14 +485,14 @@ export default function GeradorFacebook() {
                       <Button
                         onClick={handleAddClick2}
                         variant='button'>
-                        Add item
+                        {t('adicionar')}
                       </Button>
                       <Button
                         onClick={handleClear2}
                         variant='button-outline'
                         color={color}
                         borderColor={color}>
-                        Clear list
+                        {t('limpar')}
                       </Button>
                     </Flex>
                   </FormControl>
@@ -625,9 +626,9 @@ export default function GeradorFacebook() {
                       align={'center'}
                       gap='2'>
                       <AiFillLike color='#3b5998' />
-                      100 curtidas
+                      100 {t('curtidas')}
                     </Flex>
-                    20 comentários ‎ ‎ 9 compartilhamentos
+                    20 {t('comentarios')} ‎ ‎ 9 {t('compartilhamentos')}
                   </Flex>
                   <Flex
                     justifyContent={'space-around'}
@@ -638,19 +639,19 @@ export default function GeradorFacebook() {
                       align={'center'}
                       gap='2'>
                       <AiOutlineLike />
-                      Curtir
+                      {t('curtir')}
                     </Flex>
                     <Flex
                       align={'center'}
                       gap='2'>
                       <TfiComment />
-                      Comentar
+                      {t('comentar')}
                     </Flex>
                     <Flex
                       align={'center'}
                       gap='2'>
                       <TbShare3 />
-                      Compartilhar
+                      {t('compartilhar')}
                     </Flex>
                   </Flex>
                 </Box>
@@ -748,6 +749,7 @@ const EditableField = ({
   onChange
 }) => {
   const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue("black", "white");
 
   return (
     <GridItem
@@ -770,6 +772,7 @@ const EditableField = ({
         <Input
           borderRadius={'30px'}
           bg={bg}
+          borderColor={border}
           id={id}
           mt='2'
           value={value || ''}
@@ -788,7 +791,7 @@ const Field = ({
   handleKeyDown,
   onKeyPress
 }) => {
-  const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue("black", "white");
 
   return (
     <FormControl
@@ -799,7 +802,7 @@ const Field = ({
       </FormLabel>
       <Input
         borderRadius={'30px'}
-        bg={bg}
+        borderColor={border}
         id={id}
         value={value || ''}
         onChange={onChange}

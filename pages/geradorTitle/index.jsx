@@ -47,6 +47,7 @@ export default function GeradorTitle() {
   const bg = useColorModeValue('white', 'gray.900');
   const color = useColorModeValue('primary', 'white');
   const border = useColorModeValue("primary", "white");
+  const border2 = useColorModeValue('black', 'white');
 
   const route = useRouter();
 
@@ -195,7 +196,7 @@ export default function GeradorTitle() {
                   gap='2'>
                   <Input
                     isRequired={true}
-                    bg={bg}
+                    borderColor={border2}
                     value={name}
                     borderRadius={"30px"}
                     onKeyPress={handleKeypress}
@@ -203,14 +204,14 @@ export default function GeradorTitle() {
                   <Button
                     onClick={handleAddClick}
                     variant='button'>
-                    Add item
+                    {t('adicionar')}
                   </Button>
                   <Button
                     onClick={handleClear}
                     variant='button-outline'
                     color={color}
                     borderColor={color}>
-                    Clear list
+                    {t('limpar')}
                   </Button>
                 </Flex>
               </FormControl>
@@ -308,7 +309,7 @@ export default function GeradorTitle() {
                   </Flex>
                   <Textarea
                     id={"description-textarea"}
-                    bg={bg}
+                    borderColor={border2}
                     rows='8'
                     readOnly
                     borderRadius={"30px"}
@@ -334,6 +335,7 @@ function Field({
 
   const border = useColorModeValue("primary", "white");
   const bg = useColorModeValue('white', 'gray.900');
+  const border2 = useColorModeValue('black', 'white');
 
   return (
     <>
@@ -363,7 +365,7 @@ function Field({
       </Flex>
       <Input
         id={id}
-        bg={bg}
+        borderColor={border2}
         readOnly
         borderRadius={"30px"}
         value={value || ''}

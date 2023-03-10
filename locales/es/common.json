@@ -3,6 +3,14 @@
 
   "geradores": "Geradores",
 
+  "gerar": "Generar",
+  "limpar": "Limpio",
+  "salvar": "Guardar",
+  
+  "gerador": "Generador de anuncios",
+  "geradorProduto": "Generador de anuncios de productos",
+  "geradorSocialMedia": "Generador de anuncios para redes sociales",
+
   "__comment6.2__": "Gerador de Title",
   "geradorTitle": "Generador de títulos",
   "geradorTitles": "Generador de Título y Descripción",
@@ -25,9 +33,7 @@
   "evitarPalavraChave": "Palabras clave a evitar",
   "titulo": "Título",
   "descricao": "Descripción",
-  "gerar": "Generar",
-  "limpar": "Limpio",
-  "salvar": "Guardar",
+  "visualizar": "Ver títulos y descripciones",
 
   "__comment6.4__": "Gerador de Texto",
   "geradorTexto": "Generador de Texto",
@@ -36,10 +42,22 @@
   "siteEmpresa": "Sitio web de la empresa",
   "aguarde": "Generando texto... Por favor espera",
 
-  "__comment6.5__": "Gerador de Mídias Sociais",
+  "__comment6.5_": "Gerador de Mídias Sociais",
   "topico": "Tópico",
 
-  "__comment6.6__": "Gerador de Descrição de Produtos",
+  "__comment6.6_": "Gerador de Descrição de Produtos",
   "nomeProduto": "Nombre del producto",
-  "caracteristicasProduto": "Características del producto"
+  "caracteristicasProduto": "Características del producto",
+  "tom": "Tono de conversación",
+  "positivo": "Positivo",
+  "negativo": "Negativo",
+  "neutro": "Neutro",
+
+  "__comment6.7__": "Gerador de Anúncio Facebook",
+  "curtir": "me gusta",
+  "comentar": "comentar",
+  "compartilhar": "comparte",
+  "curtidas": "me gusta",
+  "comentarios": "comentarios",
+  "compartilhamentos": "acciones"
 }

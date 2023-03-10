@@ -64,6 +64,7 @@ export default function GeradorProduto() {
   const bg = useColorModeValue('white', 'gray.900');
   const bg2 = useColorModeValue('gray.100', 'gray.900');
   const color = useColorModeValue('primary', 'white');
+  const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
 
@@ -396,7 +397,7 @@ export default function GeradorProduto() {
                       gap='2'>
                       <Input
                         isRequired={true}
-                        bg={bg}
+                        borderColor={border}
                         value={name}
                         borderRadius={"30px"}
                         onKeyPress={handleKeypress}
@@ -404,14 +405,14 @@ export default function GeradorProduto() {
                       <Button
                         onClick={handleAddClick}
                         variant='button'>
-                        Add item
+                        {t('adicionar')}
                       </Button>
                       <Button
                         onClick={handleClear}
                         variant='button-outline'
                         color={color}
                         borderColor={color}>
-                        Clear list
+                        {t('limpar')}
                       </Button>
                     </Flex>
                   </FormControl>
@@ -452,7 +453,7 @@ export default function GeradorProduto() {
                       gap='2'>
                       <Input
                         isRequired={true}
-                        bg={bg}
+                        borderColor={border}
                         value={name2}
                         borderRadius={"30px"}
                         onKeyPress={handleKeypress2}
@@ -460,14 +461,14 @@ export default function GeradorProduto() {
                       <Button
                         onClick={handleAddClick2}
                         variant='button'>
-                        Add item
+                        {t('adicionar')}
                       </Button>
                       <Button
                         onClick={handleClear2}
                         variant='button-outline'
                         color={color}
                         borderColor={color}>
-                        Clear list
+                        {t('limpar')}
                       </Button>
                     </Flex>
                   </FormControl>
@@ -497,7 +498,7 @@ export default function GeradorProduto() {
                 <FormControl
                   isRequired>
                   <FormLabel>
-                    Tom
+                    {t('tom')}
                   </FormLabel>
                   <Select
                     borderRadius={'30px'}
@@ -507,15 +508,15 @@ export default function GeradorProduto() {
                     </option>
                     <option
                       value="positivo">
-                      Positivo
+                      {t('positivo')}
                     </option>
                     <option
                       value="negativo">
-                      Negativo
+                      {t('negativo')}
                     </option>
                     <option
                       value="neutro">
-                      Neutro
+                      {t('neutro')}
                     </option>
                   </Select>
                 </FormControl>
@@ -691,6 +692,7 @@ const EditableField = ({
   onChange
 }) => {
   const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue('black', 'white');
 
   return (
     <GridItem
@@ -712,6 +714,7 @@ const EditableField = ({
         </Flex>
         <Input
           borderRadius={'30px'}
+          borderColor={border}
           bg={bg}
           id={id}
           mt='2'

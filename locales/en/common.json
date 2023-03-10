@@ -2,6 +2,14 @@
   "language-name": "🇺🇸 English",
   
   "geradores": "Geradores",
+  
+  "gerar": "Generate",
+  "limpar": "Clear",
+  "salvar": "Save",
+
+  "gerador": "Ad Generator of",
+  "geradorProduto": "Product Ad Generator",
+  "geradorSocialMedia": "Ads generator for social media",
 
   "__comment6.2__": "Gerador de Title",
   "geradorTitle": "Title generator",
@@ -15,7 +23,7 @@
   "copiar": "copy",
   "copiado": "copied",
 
-  "__comment6.3__": "Gerador de Anúncios",
+  "__comment6.3_": "Gerador de Anúncios",
   "geradorAds": "Ads Generator",
   "nomeEmpresa": "Company name",
   "audiencia": "Audience",
@@ -25,9 +33,7 @@
   "evitarPalavraChave": "Keywords to avoid",
   "titulo": "Title",
   "descricao": "Description",
-  "gerar": "Generate",
-  "limpar": "Clear",
-  "salvar": "Save",
+  "visualizar": "View titles and descriptions",
 
   "__comment6.4__": "Gerador de Texto",
   "geradorTexto": "Text generator",
@@ -36,10 +42,22 @@
   "siteEmpresa": "Company website",
   "aguarde": "Generating text... Please wait",
 
-  "__comment6.5__": "Gerador de Mídias Sociais",
+  "__comment6.5_": "Gerador de Mídias Sociais",
   "topico": "Topic",
 
-  "__comment6.6__": "Gerador de Descrição de Produtos",
+  "__comment6.6_": "Gerador de Descrição de Produtos",
   "nomeProduto": "Product name",
-  "caracteristicasProduto": "Product features"
+  "caracteristicasProduto": "Product features",
+  "tom": "Talking tone",
+  "positivo": "Positive",
+  "negativo": "Negative",
+  "neutro": "Neutral",
+
+  "__comment6.7__": "Gerador de Anúncio Facebook",
+  "curtir": "like",
+  "comentar": "comment",
+  "compartilhar": "share",
+  "curtidas": "likes",
+  "comentarios": "comments",
+  "compartilhamentos": "shares"
 }

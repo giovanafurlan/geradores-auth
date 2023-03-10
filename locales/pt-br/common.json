@@ -1,7 +1,10 @@
 {
   "language-name": "🇧🇷 Português",
-
   "geradores": "Geradores",
+
+  "gerador": "Gerador de anúncios do",
+  "geradorProduto": "Gerador de anúncios de produto",
+  "geradorSocialMedia": "Gerador de anúncios para mídias sociais",
 
   "__comment6.2__": "Gerador de Title",
   "geradorTitle": "Gerador de Title",
@@ -25,6 +28,7 @@
   "evitarPalavraChave": "Palavras chaves para evitar",
   "titulo": "Título",
   "descricao": "Descrição",
+  "visualizar": "Visualizar títulos e descrições",
   "gerar": "Gerar",
   "limpar": "Limpar",
   "salvar": "Salvar",
@@ -41,5 +45,18 @@
 
   "__comment6.6__": "Gerador de Descrição de Produtos",
   "nomeProduto": "Nome do produto",
-  "caracteristicasProduto": "Características do produto"
+  "caracteristicasProduto": "Características do produto",
+  "tom": "Tom de fala",
+  "positivo": "Positivo",
+  "negativo": "Negativo",
+  "neutro": "Neutro",
+
+  "__comment6.7__": "Gerador de Anúncio Facebook",
+  "curtir": "curtir",
+  "comentar": "comentar",
+  "compartilhar": "compartilhar",
+  "curtidas": "curtidas",
+  "comentarios": "comentários",
+  "compartilhamentos": "compartilhamentos"
+
 }

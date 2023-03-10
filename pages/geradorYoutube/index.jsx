@@ -38,6 +38,7 @@ export default function GeradorYoutube() {
 
   const bg = useColorModeValue('white', 'gray.900');
   const color = useColorModeValue('primary', 'white');
+  const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
 
@@ -126,7 +127,7 @@ export default function GeradorYoutube() {
                   </FormLabel>
                   <Textarea
                     borderRadius={'30px'}
-                    bg={bg}
+                    borderColor={border}
                     id={id}
                     rows='8'
                     value={topic || ''}
@@ -250,7 +251,7 @@ const Field = ({
   handleKeyDown,
   onKeyPress
 }) => {
-  const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue('black', 'white');
 
   return (
     <FormControl
@@ -261,7 +262,7 @@ const Field = ({
       </FormLabel>
       <Input
         borderRadius={'30px'}
-        bg={bg}
+        borderColor={border}
         id={id}
         value={value || ''}
         onChange={onChange}

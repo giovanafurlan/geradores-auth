@@ -56,6 +56,8 @@ export default function GeradorTextos() {
   const [nomeEmpresa, setNomeEmpresa] = useState();
   const [siteEmpresa, setSiteEmpresa] = useState();
 
+  const border = useColorModeValue('black', 'white');
+
   // const [text, setText] = useState();
 
   const route = useRouter();
@@ -125,7 +127,7 @@ export default function GeradorTextos() {
           <FormControl
             isRequired>
             <FormLabel>
-              Quantidade de palavras
+              {t('numPalavras')}
             </FormLabel>
             <RadioGroup
               colorScheme={'purple'}
@@ -211,7 +213,7 @@ const Field = ({
   onChange
 }) => {
 
-  const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue('black', 'white');
 
   return (
     <FormControl
@@ -222,7 +224,7 @@ const Field = ({
       </FormLabel>
       <Input
         borderRadius={'30px'}
-        bg={bg}
+        borderColor={border}
         id={id}
         value={value || ''}
         onChange={onChange} />

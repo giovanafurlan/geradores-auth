@@ -40,6 +40,7 @@ export default function GeradorSocialMedia() {
 
   const bg = useColorModeValue('white', 'gray.900');
   const color = useColorModeValue('primary', 'white');
+  const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
 
@@ -99,13 +100,6 @@ export default function GeradorSocialMedia() {
     setKeywords([]);
   }
 
-  const [message, setMessage] = useState('');
-
-  const handleChange = (event) => {
-    // 👇 Get input value from "event"
-    setMessage(event.target.value);
-  };
-
   return (
     <ProtectedRoute>
       <Menu>
@@ -129,7 +123,7 @@ export default function GeradorSocialMedia() {
                   </FormLabel>
                   <Textarea
                     borderRadius={'30px'}
-                    bg={bg}
+                    borderColor={border}
                     id={id}
                     rows='8'
                     value={topic || ''}
@@ -221,6 +215,9 @@ export default function GeradorSocialMedia() {
                       align='center'
                       gap='2'>
                       <Textarea
+                        borderRadius={'30px'}
+                        borderColor={border}
+                        bg={bg}
                         key={item}
                         defaultValue={item}
                         readOnly />
@@ -247,7 +244,7 @@ const Field = ({
   handleKeyDown,
   onKeyPress
 }) => {
-  const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue('black', 'white');
 
   return (
     <FormControl
@@ -258,7 +255,7 @@ const Field = ({
       </FormLabel>
       <Input
         borderRadius={'30px'}
-        bg={bg}
+        borderColor={border}
         id={id}
         value={value || ''}
         onChange={onChange}
