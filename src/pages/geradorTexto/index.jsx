@@ -18,7 +18,7 @@ import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 import useTranslation from "next-translate/useTranslation";
 import { getText } from "../../services/getApis";
-import Menu from '../../components/Menu';
+import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import styled from "styled-components";
 
@@ -119,8 +119,9 @@ export default function GeradorTextos() {
   ]
 
   return (
-    <ProtectedRoute>
-      <Menu>
+    // <ProtectedRoute>>
+      <SideBar
+        nomePagina={t('geradorTexto')}>
         <Flex
           flexDir={'column'}
           gap='6'>
@@ -200,8 +201,8 @@ export default function GeradorTextos() {
             </Estilo>
           </Box>
         </Flex>
-      </Menu>
-    </ProtectedRoute>
+      </SideBar>
+    // </ProtectedRoute>
   )
 }
 

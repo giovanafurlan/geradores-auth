@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Login";
 import { AuthContextProvider } from "../context/AuthContext";
 import Head from "next/head";
 

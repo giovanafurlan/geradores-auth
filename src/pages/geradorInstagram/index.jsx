@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { getSocialMedia } from "../../services/getApis";
 import CopyClipboard from "../../components/CopyClipboard";
-import Menu from '../../components/Menu';
+import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 
 export default function GeradorInstagram() {
@@ -101,8 +101,9 @@ export default function GeradorInstagram() {
   }
 
   return (
-    <ProtectedRoute>
-      <Menu>
+    // <ProtectedRoute>>
+      <SideBar
+        nomePagina={`${t('gerador')} Instagram`}>
         <Grid
           templateColumns={{
             lg: 'repeat(3,1fr)',
@@ -232,8 +233,8 @@ export default function GeradorInstagram() {
             </Flex>
           </GridItem>
         </Grid>
-      </Menu>
-    </ProtectedRoute>
+      </SideBar>
+    // </ProtectedRoute>
   )
 }
 

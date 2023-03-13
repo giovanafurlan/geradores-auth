@@ -23,8 +23,9 @@ import useTranslation from "next-translate/useTranslation";
 import { IoMdCode } from "react-icons/io";
 import { getDescription, getTitle } from "../../services/getApis";
 import CopyClipboard from "../../components/CopyClipboard";
-import Menu from '../../components/Menu';
+import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
+import Keywords from '../../components/Keywords';
 
 export default function GeradorTitle() {
 
@@ -150,8 +151,9 @@ export default function GeradorTitle() {
   }
 
   return (
-    <ProtectedRoute>
-      <Menu>
+    // <ProtectedRoute>>
+      <SideBar
+        nomePagina={t('geradorTitle')}>
         <Grid
           templateColumns={'repeat(3,1fr)'}
           gap='6'>
@@ -168,7 +170,7 @@ export default function GeradorTitle() {
                   id="select-tipo"
                   name="tipo"
                   onChange={(e) => setType(e.target.value)}
-                  bg={bg}
+                  borderColor={border2}
                   borderRadius={"30px"} >
                   <option value="">
                   </option>
@@ -186,36 +188,15 @@ export default function GeradorTitle() {
                   </option>
                 </Select>
               </FormControl>
-              <FormControl
-                isRequired>
-                <FormLabel>
-                  {t('palavraChave')}
-                </FormLabel>
-                <Flex
-                  align={'center'}
-                  gap='2'>
-                  <Input
-                    isRequired={true}
-                    borderColor={border2}
-                    value={name}
-                    borderRadius={"30px"}
-                    onKeyPress={handleKeypress}
-                    onChange={(e) => setName(e.target.value)} />
-                  <Button
-                    onClick={handleAddClick}
-                    variant='button'>
-                    {t('adicionar')}
-                  </Button>
-                  <Button
-                    onClick={handleClear}
-                    variant='button-outline'
-                    color={color}
-                    borderColor={color}>
-                    {t('limpar')}
-                  </Button>
-                </Flex>
-              </FormControl>
-              <div>
+              <Keywords
+                required={true}
+                label={t('palavraChave')}
+                tooltip={'palavraChave'}
+                name={name}
+                keyPress={handleKeypress}
+                changeName={(e) => setName(e.target.value)}
+                addClick={handleAddClick}
+                clear={handleClear}>
                 {keywords.map((item) => {
                   const handleRemoveClick = () => {
                     setKeyword(list => list.filter((entry) => entry !== item));
@@ -224,6 +205,7 @@ export default function GeradorTitle() {
                     <Tag
                       key={item}
                       borderRadius='full'
+                      w='min-content'
                       variant='solid'
                       colorScheme='purple'
                       mr='2'
@@ -236,7 +218,7 @@ export default function GeradorTitle() {
                     </Tag>
                   )
                 })}
-              </div>
+              </Keywords>
               <Box
                 w='full'>
                 <Button
@@ -319,8 +301,8 @@ export default function GeradorTitle() {
             </Flex>
           </GridItem>
         </Grid>
-      </Menu>
-    </ProtectedRoute>
+      </SideBar>
+    // </ProtectedRoute>
   )
 }
 

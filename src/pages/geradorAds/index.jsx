@@ -9,22 +9,23 @@ import {
   Grid,
   GridItem,
   Input,
-  Select,
   Tag,
   TagCloseButton,
   TagLabel,
-  Textarea,
+  Text,
+  Tooltip,
   useColorModeValue
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
-import { getDescriptionsProduct, getTitlesProduct } from "../../services/getApis";
+import { getDescriptionsAds, getTitlesAds } from "../../services/getApis";
 import CopyClipboard from "../../components/CopyClipboard";
-import Menu from '../../components/Menu';
+import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
-import DownloadTxt from "../../components/DownloadTxt";
+import Keywords from "../../components/Keywords";
+import Descriptions from "../../components/Descriptions";
 
-export default function GeradorProduto() {
+export default function GeradorAds() {
 
   const { t } = useTranslation("common");
 
@@ -35,36 +36,35 @@ export default function GeradorProduto() {
   const [display2, setDisplay2] = useState('none');
 
   const [company, setCompany] = useState();
-  const [product, setProduct] = useState();
-  const [tom, setTom] = useState();
-
-  const [keywords, setKeywords] = useState([]);
-  const [id, setId] = useState(1);
-  const [name, setName] = useState('');
-
-  const [productDescription, setProductDescription] = useState([]);
-  const [id2, setId2] = useState(1);
-  const [name2, setName2] = useState('');
+  const [audience, setAudience] = useState();
+  const [resume, setResume] = useState();
 
   const [title1, setTitle1] = useState();
   const [title2, setTitle2] = useState();
   const [title3, setTitle3] = useState();
+  const [title4, setTitle4] = useState();
+  const [title5, setTitle5] = useState();
+  const [title6, setTitle6] = useState();
 
   const [description1, setDescription1] = useState();
   const [description2, setDescription2] = useState();
   const [description3, setDescription3] = useState();
 
-  const [readOnly1, setReadOnly1] = useState(true);
-  const [border1, setBorder1] = useState('none');
-  const [readOnly2, setReadOnly2] = useState(true);
-  const [border2, setBorder2] = useState('none');
-  const [readOnly3, setReadOnly3] = useState(true);
-  const [border3, setBorder3] = useState('none');
+  const [keywords, setKeywords] = useState([]);
+  const [id, setId] = useState(1);
+  const [name, setName] = useState('');
+
+  const [avoidKeywords, setAvoidKeywords] = useState([]);
+  const [id2, setId2] = useState(1);
+  const [name2, setName2] = useState('');
+
+  const [count, setCount] = useState(0);
+  const [countTag, setCountTag] = useState('');
+  const [visibilityTag, setVisibilityTag] = useState('hidden');
+  const [colorful, setColorful] = useState('gray');
 
   const bg = useColorModeValue('white', 'gray.900');
-  const bg2 = useColorModeValue('gray.100', 'gray.900');
   const color = useColorModeValue('primary', 'white');
-  const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
 
@@ -77,7 +77,9 @@ export default function GeradorProduto() {
 
     setVisibility('visible');
 
-    getTitlesProduct(locale, company, product, keywords.toString(), productDescription.toString(), tom)
+    var midiaSocial = 'Google Ads';
+
+    getTitlesAds(locale, company, resume, audience, keywords.toString(), avoidKeywords.toString(), midiaSocial)
       .then((res) => {
         setIsLoadingT(false);
 
@@ -92,6 +94,9 @@ export default function GeradorProduto() {
           setTitle1(titles[0]);
           setTitle2(titles[1]);
           setTitle3(titles[2]);
+          setTitle4(titles[3]);
+          setTitle5(titles[4]);
+          setTitle6(titles[5]);
         })
 
       })
@@ -102,7 +107,7 @@ export default function GeradorProduto() {
       })
       .finally();
 
-    getDescriptionsProduct(locale, company, product, keywords.toString(), productDescription.toString(), tom)
+    getDescriptionsAds(locale, company, resume, audience, keywords.toString(), avoidKeywords.toString())
       .then((res) => {
         setIsLoadingD(false);
 
@@ -128,7 +133,7 @@ export default function GeradorProduto() {
       .finally();
   }
 
-  const arrayTitles = [`${title1}`, `${title2}`, `${title3}`];
+  const arrayTitles = [`${title1}/${title2}`, `${title3}/${title4}`, `${title5}/${title6}`];
   const arrayDescriptions = [`${description1}`, `${description2}`, `${description3}`];
 
   const [index, setIndex] = useState(0);
@@ -161,6 +166,24 @@ export default function GeradorProduto() {
     return () => { clearInterval(timer); }
   }, []);
 
+  useEffect(() => {
+    if (count >= 1) {
+      setVisibilityTag('visible');
+      if (count <= 50) {
+        setColorful('red');
+        setCountTag('Fraco');
+      } else if (count >= 51 && count <= 100) {
+        setColorful('yellow');
+        setCountTag('Justo');
+      } else {
+        setColorful('green');
+        setCountTag('Ótimo');
+      }
+    } else {
+      setVisibilityTag('hidden');
+    }
+  }, [count]);
+
   const handleKeypress = e => {
     if (e.key === 'Enter') {
       handleAddClick();
@@ -176,7 +199,9 @@ export default function GeradorProduto() {
   const handleAddClick = (event) => {
     if (name != '') {
       setId(id => id + 1);
-      setKeywords(list => [...list, name]);
+      if (keywords.length < 3) {
+        setKeywords(list => [...list, name]);
+      }
       setName('');
     }
   }
@@ -184,7 +209,9 @@ export default function GeradorProduto() {
   const handleAddClick2 = (event) => {
     if (name2 != '') {
       setId2(id => id + 1);
-      setProductDescription(list => [...list, name2]);
+      if (avoidKeywords.length < 3) {
+        setAvoidKeywords(list => [...list, name2]);
+      }
       setName2('');
     }
   }
@@ -196,14 +223,20 @@ export default function GeradorProduto() {
 
   const handleClear2 = () => {
     setId2(0);
-    setProductDescription([]);
+    setAvoidKeywords([]);
+  }
+
+  const handleEdit = () => {
+
+    setDisplay('none');
+    setDisplay2('inline');
   }
 
   const handleSave = () => {
+
     setDisplay('inline-flex');
     setDisplay2('none');
   }
-
 
   const fields = [
     {
@@ -211,50 +244,16 @@ export default function GeradorProduto() {
       id: 'company',
       title: t('nomeEmpresa'),
       value: company,
+      tooltip: '',
       onChange: (e) => setCompany(e.target.value)
     },
     {
       isRequired: true,
-      id: 'product',
-      title: t('nomeProduto'),
-      value: product,
-      onChange: (e) => setProduct(e.target.value)
-    }
-  ]
-
-  const content = [
-    {
-      title: title1,
-      onChangeTitle: (e) => setTitle1(e.target.value),
-      description: description1,
-      onChangeDescription: (e) => setDescription1(e.target.value),
-      readOnly: readOnly1,
-      border: border1,
-      slice1: 0,
-      slice2: 1,
-      onClickEdit: (e) => { setBorder1('1px'); setReadOnly1(false) }
-    },
-    {
-      title: title2,
-      onChangeTitle: (e) => setTitle2(e.target.value),
-      description: description2,
-      onChangeDescription: (e) => setDescription2(e.target.value),
-      readOnly: readOnly2,
-      border: border2,
-      slice1: 1,
-      slice2: 2,
-      onClickEdit: (e) => { setBorder2('1px'); setReadOnly2(false) }
-    },
-    {
-      title: title3,
-      onChangeTitle: (e) => setTitle3(e.target.value),
-      description: description3,
-      onChangeDescription: (e) => setDescription3(e.target.value),
-      readOnly: readOnly3,
-      border: border3,
-      slice1: 2,
-      slice2: 3,
-      onClickEdit: (e) => { setBorder3('1px'); setReadOnly3(false) }
+      id: 'audience',
+      title: t('audiencia'),
+      value: audience,
+      tooltip: '',
+      onChange: (e) => setAudience(e.target.value)
     }
   ]
 
@@ -278,6 +277,27 @@ export default function GeradorProduto() {
       title: `${t('titulo')} 3`,
       value: title3 || '',
       onChange: (e) => setTitle3(e.target.value),
+      colSpan: 1
+    },
+    {
+      id: 'title4',
+      title: `${t('titulo')} 4`,
+      value: title4 || '',
+      onChange: (e) => setTitle4(e.target.value),
+      colSpan: 1
+    },
+    {
+      id: 'title5',
+      title: `${t('titulo')} 5`,
+      value: title5 || '',
+      onChange: (e) => setTitle5(e.target.value),
+      colSpan: 1
+    },
+    {
+      id: 'title6',
+      title: `${t('titulo')} 6`,
+      value: title6 || '',
+      onChange: (e) => setTitle6(e.target.value),
       colSpan: 1
     },
     {
@@ -305,64 +325,68 @@ export default function GeradorProduto() {
 
   const itemsHeadlines = [
     {
-      color: title1?.replace(/\s/g, '').length > 120 ? 'red' : 'green',
+      color: title1?.replace(/\s/g, '').length > 30 ? 'red' : 'green',
       title: `${t('titulo')} 1:`,
       total: title1?.replace(/\s/g, '').length,
-      cont: 120
+      cont: 30
     },
     {
-      color: title2?.replace(/\s/g, '').length > 120 ? 'red' : 'green',
+      color: title2?.replace(/\s/g, '').length > 30 ? 'red' : 'green',
       title: `${t('titulo')} 2:`,
       total: title2?.replace(/\s/g, '').length,
-      cont: 120
+      cont: 30
     },
     {
-      color: title3?.replace(/\s/g, '').length > 120 ? 'red' : 'green',
+      color: title3?.replace(/\s/g, '').length > 30 ? 'red' : 'green',
       title: `${t('titulo')} 3:`,
       total: title3?.replace(/\s/g, '').length,
-      cont: 120
+      cont: 30
+    },
+    {
+      color: title4?.replace(/\s/g, '').length > 30 ? 'red' : 'green',
+      title: `${t('titulo')} 4:`,
+      total: title4?.replace(/\s/g, '').length,
+      cont: 30
+    },
+    {
+      color: title5?.replace(/\s/g, '').length > 30 ? 'red' : 'green',
+      title: `${t('titulo')} 5:`,
+      total: title5?.replace(/\s/g, '').length,
+      cont: 30
+    },
+    {
+      color: title6?.replace(/\s/g, '').length > 30 ? 'red' : 'green',
+      title: `${t('titulo')} 6:`,
+      total: title6?.replace(/\s/g, '').length,
+      cont: 30
     }
   ]
 
   const itemsDescriptions = [
     {
-      color: description1?.replace(/\s/g, '').length > 300 ? 'red' : 'green',
+      color: description1?.replace(/\s/g, '').length > 90 ? 'red' : 'green',
       title: `${t('descricao')} 1:`,
       total: description1?.replace(/\s/g, '').length,
-      cont: 300
+      cont: 90
     },
     {
-      color: description2?.replace(/\s/g, '').length > 300 ? 'red' : 'green',
+      color: description2?.replace(/\s/g, '').length > 90 ? 'red' : 'green',
       title: `${t('descricao')} 2:`,
       total: description2?.replace(/\s/g, '').length,
-      cont: 300
+      cont: 90
     },
     {
-      color: description3?.replace(/\s/g, '').length > 300 ? 'red' : 'green',
+      color: description3?.replace(/\s/g, '').length > 90 ? 'red' : 'green',
       title: `${t('descricao')} 3:`,
       total: description3?.replace(/\s/g, '').length,
-      cont: 300
+      cont: 90
     }
   ]
 
-  const download = [
-    {
-      title1: title1,
-      description1: description1
-    },
-    {
-      title1: title2,
-      description1: description2
-    },
-    {
-      title1: title3,
-      description1: description3
-    },
-  ]
-
   return (
-    <ProtectedRoute>
-      <Menu>
+    // <ProtectedRoute>
+      <SideBar
+        nomePagina={t('geradorAds')}>
         <Grid
           templateColumns={{
             lg: 'repeat(3,1fr)',
@@ -381,41 +405,27 @@ export default function GeradorProduto() {
                     id={item.id}
                     title={item.title}
                     value={item.value}
+                    tooltip={item.tooltip}
                     onChange={item.onChange} />
                 ))}
-                <Flex
-                  w='full'
-                  flexDir={'column'}
-                  gap='4'>
-                  <FormControl
-                    isRequired>
-                    <FormLabel>
-                      {t('adicionarPalavraChave')}
-                    </FormLabel>
-                    <Flex
-                      align={'center'}
-                      gap='2'>
-                      <Input
-                        isRequired={true}
-                        borderColor={border}
-                        value={name}
-                        borderRadius={"30px"}
-                        onKeyPress={handleKeypress}
-                        onChange={(e) => setName(e.target.value)} />
-                      <Button
-                        onClick={handleAddClick}
-                        variant='button'>
-                        {t('adicionar')}
-                      </Button>
-                      <Button
-                        onClick={handleClear}
-                        variant='button-outline'
-                        color={color}
-                        borderColor={color}>
-                        {t('limpar')}
-                      </Button>
-                    </Flex>
-                  </FormControl>
+                <Descriptions
+                  label={t('descricaoEmpresa')}
+                  tooltip={'descricaoEmpresa'}
+                  value={resume}
+                  changeDescription={(e) => { setResume(e.target.value); setCount(e.target.value.length) }}
+                  colorful={colorful}
+                  count={count}
+                  countTag={countTag}
+                  visibilityTag={visibilityTag} />
+                <Keywords
+                  required={true}
+                  label={t('adicionarPalavraChave')}
+                  tooltip={'adicionarPalavraChave'}
+                  name={name}
+                  keyPress={handleKeypress}
+                  changeName={(e) => setName(e.target.value)}
+                  addClick={handleAddClick}
+                  clear={handleClear}>
                   <div>
                     {keywords.map((item) => {
                       const handleRemoveClick = () => {
@@ -438,44 +448,20 @@ export default function GeradorProduto() {
                       )
                     })}
                   </div>
-                </Flex>
-                <Flex
-                  w='full'
-                  flexDir={'column'}
-                  gap='4'>
-                  <FormControl
-                    isRequired>
-                    <FormLabel>
-                      {t('caracteristicasProduto')}
-                    </FormLabel>
-                    <Flex
-                      align={'center'}
-                      gap='2'>
-                      <Input
-                        isRequired={true}
-                        borderColor={border}
-                        value={name2}
-                        borderRadius={"30px"}
-                        onKeyPress={handleKeypress2}
-                        onChange={(e) => setName2(e.target.value)} />
-                      <Button
-                        onClick={handleAddClick2}
-                        variant='button'>
-                        {t('adicionar')}
-                      </Button>
-                      <Button
-                        onClick={handleClear2}
-                        variant='button-outline'
-                        color={color}
-                        borderColor={color}>
-                        {t('limpar')}
-                      </Button>
-                    </Flex>
-                  </FormControl>
+                </Keywords>
+                <Keywords
+                  required={false}
+                  label={t('evitarPalavraChave')}
+                  tooltip={'evitarPalavraChave'}
+                  name={name2}
+                  keyPress={handleKeypress2}
+                  changeName={(e) => setName2(e.target.value)}
+                  addClick={handleAddClick2}
+                  clear={handleClear2}>
                   <div>
-                    {productDescription.map((item) => {
+                    {avoidKeywords.map((item) => {
                       const handleRemoveClick = () => {
-                        setProductDescription(list => list.filter((entry) => entry !== item));
+                        setAvoidKeywords(list => list.filter((entry) => entry !== item));
                       };
                       return (
                         <Tag
@@ -494,36 +480,10 @@ export default function GeradorProduto() {
                       )
                     })}
                   </div>
-                </Flex>
-                <FormControl
-                  isRequired>
-                  <FormLabel>
-                    {t('tom')}
-                  </FormLabel>
-                  <Select
-                    borderRadius={'30px'}
-                    bg={bg}
-                    onChange={(e) => setTom(e.target.value)}>
-                    <option value="">
-                    </option>
-                    <option
-                      value="positivo">
-                      {t('positivo')}
-                    </option>
-                    <option
-                      value="negativo">
-                      {t('negativo')}
-                    </option>
-                    <option
-                      value="neutro">
-                      {t('neutro')}
-                    </option>
-                  </Select>
-                </FormControl>
+                </Keywords>
                 <Button
                   value='Generate'
                   w='100%'
-                  mt='4'
                   variant='button-orange'
                   onClick={() => { onSubmit() }}>
                   {t('gerar')}
@@ -534,35 +494,84 @@ export default function GeradorProduto() {
           <GridItem
             colSpan={'2'}
             visibility={visibility}>
-            {isLoadingT
-              ?
-              <CircularProgress
-                isIndeterminate />
-              :
-              <Flex
-                flexDir={'column'}
-                gap='4'>
-                <DownloadTxt content={download} />
-                {content.map((item, idx) => (
-                  <Content
-                    key={idx}
+            <Flex
+              flexDir={'column'}
+              bg={bg}
+              display={display}
+              borderRadius={'30px'}
+              p='4'
+              gap={'4'}
+              alignItems={'initial'}>
+              {isLoadingT
+                ?
+                <CircularProgress
+                  isIndeterminate />
+                :
+                <Text
+                  color={'blue.400'}
+                  fontSize='lg'>
+                  {arrayTitles[index]}
+                </Text>
+              }
+              {isLoadingD
+                ?
+                <CircularProgress
+                  isIndeterminate />
+                :
+                <Text>
+                  {arrayDescriptions[index]}
+                </Text>
+              }
+              {isLoadingD
+                ?
+                <CircularProgress
+                  isIndeterminate />
+                :
+                <>
+                  <Flex
+                    gap='2'
                     display={display}
-                    title={item.title}
-                    onChangeTitle={item.onChangeTitle}
-                    isLoadingD={isLoadingD}
-                    description={item.description}
-                    onChangeDescription={item.onChangeDescription}
-                    readOnly={item.readOnly}
-                    border={item.border}
-                    itemsHeadlines={itemsHeadlines}
-                    itemsDescriptions={itemsDescriptions}
-                    slice1={item.slice1}
-                    slice2={item.slice2}
-                    onClickEdit={item.onClickEdit} />
-                ))}
-
-              </Flex>
-            }
+                    flexWrap='wrap'>
+                    {itemsHeadlines.map((item, idx) => (
+                      <Item
+                        key={idx}
+                        color={item.color}
+                        title={item.title}
+                        total={item.total}
+                        cont={item.cont} />
+                    ))}
+                  </Flex>
+                  <Flex
+                    gap='2'
+                    display={display}>
+                    {itemsDescriptions.map((item, idx) => (
+                      <Item
+                        key={idx}
+                        color={item.color}
+                        title={item.title}
+                        total={item.total}
+                        cont={item.cont} />
+                    ))}
+                  </Flex>
+                </>
+              }
+              <Box
+                w='100%'>
+                <Button
+                  onClick={handleEdit}
+                  bg='none'
+                  border='1px'
+                  borderRadius={'30px'}
+                  borderColor={color}
+                  display={display}
+                  w='min-content'
+                  px='2'
+                  color={color}
+                  fontWeight='normal'>
+                  {t('visualizar')}
+                </Button>
+              </Box>
+            </Flex>
             <Box
               display={display2}
               w='100%'>
@@ -595,94 +604,10 @@ export default function GeradorProduto() {
             </Box>
           </GridItem>
         </Grid>
-      </Menu>
-    </ProtectedRoute>
+      </SideBar>
+    // </ProtectedRoute>
   )
 }
-const Content = ({
-  display,
-  title,
-  onChangeTitle,
-  isLoadingD,
-  description,
-  onChangeDescription,
-  readOnly,
-  border,
-  itemsHeadlines,
-  itemsDescriptions,
-  slice1,
-  slice2,
-  onClickEdit
-}) => {
-  const bg = useColorModeValue('gray.100', 'gray.900');
-
-  return (
-    <Flex
-      flexDir={'column'}
-      bg={bg}
-      display={display}
-      borderRadius={'30px'}
-      p='4'
-      gap={'4'}
-      alignItems={'initial'}>
-      <Input
-        value={title}
-        onChange={onChangeTitle}
-        readOnly={readOnly}
-        fontWeight={'bold'}
-        fontSize='2xl'
-        px='0'
-        border={border}
-        borderColor='gray.400' />
-      {isLoadingD
-        ?
-        <CircularProgress
-          isIndeterminate />
-        :
-        <Textarea
-          value={description}
-          onChange={onChangeDescription}
-          readOnly={readOnly}
-          rows='3'
-          px='0'
-          border={border}
-          borderColor='gray.400' />
-      }
-      <Flex
-        display={display}>
-        {itemsHeadlines?.slice(slice1, slice2).map((item, idx) => (
-          <Item
-            key={idx}
-            color={item.color}
-            title={item.title}
-            total={item.total}
-            cont={item.cont} />
-        ))}
-      </Flex>
-      <Flex
-        mt='-10px'
-        display={display}
-        justifyContent='space-between'
-        align={'center'}>
-        {itemsDescriptions?.slice(slice1, slice2).map((item, idx) => (
-          <Item
-            key={idx}
-            color={item.color}
-            title={item.title}
-            total={item.total}
-            cont={item.cont} />
-        ))}
-        <Button
-          bg={bg}
-          variant='button-outline'
-          onClick={onClickEdit}>
-          Editar
-        </Button>
-      </Flex>
-    </Flex>
-  )
-}
-
 const EditableField = ({
   colSpan,
   isRequired,
@@ -692,7 +617,7 @@ const EditableField = ({
   onChange
 }) => {
   const bg = useColorModeValue('white', 'gray.900');
-  const border = useColorModeValue('black', 'white');
+  const border = useColorModeValue("black", "white");
 
   return (
     <GridItem
@@ -714,8 +639,8 @@ const EditableField = ({
         </Flex>
         <Input
           borderRadius={'30px'}
-          borderColor={border}
           bg={bg}
+          borderColor={border}
           id={id}
           mt='2'
           value={value || ''}
@@ -730,22 +655,35 @@ const Field = ({
   id,
   title,
   value,
+  tooltip,
   onChange,
   handleKeyDown,
   onKeyPress
 }) => {
-  const bg = useColorModeValue('white', 'gray.900');
+  const border = useColorModeValue("black", "white");
 
   return (
     <FormControl
       isRequired={isRequired}>
-      <FormLabel
-        htmlFor={id}>
-        {title}
-      </FormLabel>
+      <Flex
+        align='center'>
+        <FormLabel
+          htmlFor={id}
+          mt='1'>
+          {title}
+        </FormLabel>
+        <Tooltip
+          label={tooltip}
+          placement={'right'}
+          hasArrow>
+          <Text>
+            ⓘ
+          </Text>
+        </Tooltip>
+      </Flex>
       <Input
         borderRadius={'30px'}
-        bg={bg}
+        borderColor={border}
         id={id}
         value={value || ''}
         onChange={onChange}
@@ -772,4 +710,3 @@ const Item = ({
     </Tag>
   )
 }
-

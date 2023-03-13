@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import {
+  Avatar,
   Box,
   Button,
   CircularProgress,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
   Grid,
   GridItem,
+  Image,
   Input,
   Tag,
   TagCloseButton,
@@ -18,12 +21,17 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
+import { MdPublic } from 'react-icons/md';
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { TfiComment } from "react-icons/tfi";
+import { TbShare3 } from "react-icons/tb";
+
 import { getDescriptionsAds, getTitlesAds } from "../../services/getApis";
 import CopyClipboard from "../../components/CopyClipboard";
-import Menu from '../../components/Menu';
+import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 
-export default function GeradorAds() {
+export default function GeradorFacebook() {
 
   const { t } = useTranslation("common");
 
@@ -37,6 +45,14 @@ export default function GeradorAds() {
   const [audience, setAudience] = useState();
   const [resume, setResume] = useState();
 
+  const [keywords, setKeywords] = useState([]);
+  const [id, setId] = useState(1);
+  const [name, setName] = useState('');
+
+  const [avoidKeywords, setAvoidKeywords] = useState([]);
+  const [id2, setId2] = useState(1);
+  const [name2, setName2] = useState('');
+
   const [title1, setTitle1] = useState();
   const [title2, setTitle2] = useState();
   const [title3, setTitle3] = useState();
@@ -48,17 +64,11 @@ export default function GeradorAds() {
   const [description2, setDescription2] = useState();
   const [description3, setDescription3] = useState();
 
-  const [keywords, setKeywords] = useState([]);
-  const [id, setId] = useState(1);
-  const [name, setName] = useState('');
-
-  const [avoidKeywords, setAvoidKeywords] = useState([]);
-  const [id2, setId2] = useState(1);
-  const [name2, setName2] = useState('');
-
-  const border = useColorModeValue("black", "white");
   const bg = useColorModeValue('white', 'gray.900');
+  const bg1 = useColorModeValue('gray.100', 'gray.900');
+  const bg2 = useColorModeValue('gray.200', 'gray.800');
   const color = useColorModeValue('primary', 'white');
+  const border = useColorModeValue("black", "white");
 
   const route = useRouter();
 
@@ -71,7 +81,7 @@ export default function GeradorAds() {
 
     setVisibility('visible');
 
-    var midiaSocial = 'Google Ads';
+    var midiaSocial = 'Facebook';
 
     getTitlesAds(locale, company, resume, audience, keywords.toString(), avoidKeywords.toString(), midiaSocial)
       .then((res) => {
@@ -101,7 +111,7 @@ export default function GeradorAds() {
       })
       .finally();
 
-    getDescriptionsAds(locale, company, resume, audience, keywords.toString(), avoidKeywords.toString())
+    getDescriptionsAds(locale, company, resume, audience, keywords.toString(), avoidKeywords.toString(), midiaSocial)
       .then((res) => {
         setIsLoadingD(false);
 
@@ -127,7 +137,7 @@ export default function GeradorAds() {
       .finally();
   }
 
-  const arrayTitles = [`${title1}/${title2}`, `${title3}/${title4}`, `${title5}/${title6}`];
+  const arrayTitles = [`${title1}`, `${title2}`, `${title3}`];
   const arrayDescriptions = [`${description1}`, `${description2}`, `${description3}`];
 
   const [index, setIndex] = useState(0);
@@ -141,8 +151,10 @@ export default function GeradorAds() {
         return prevIndex + 1;
       })
     };
-    setInterval(timer, 10000);
+    setInterval(timer, 20000);
 
+    //cleanup function in order clear the interval timer
+    //when the component unmounts
     return () => { clearInterval(timer); }
   }, []);
 
@@ -155,24 +167,29 @@ export default function GeradorAds() {
         return prevIndex + 1;
       })
     };
-    setInterval(timer, 10000);
+    setInterval(timer, 20000);
 
+    //cleanup function in order clear the interval timer
+    //when the component unmounts
     return () => { clearInterval(timer); }
   }, []);
 
   const handleKeypress = e => {
+    //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       handleAddClick();
     }
   }
 
   const handleKeypress2 = e => {
+    //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       handleAddClick2();
     }
   }
 
   const handleAddClick = (event) => {
+    // event.preventDefault();
     if (name != '') {
       setId(id => id + 1);
       setKeywords(list => [...list, name]);
@@ -354,14 +371,15 @@ export default function GeradorAds() {
   ]
 
   return (
-    <ProtectedRoute>
-      <Menu>
+    // <ProtectedRoute>>
+      <SideBar
+        nomePagina={`${t('gerador')} Facebook`}>
         <Grid
           templateColumns={{
             lg: 'repeat(3,1fr)',
             sm: 'repeat(1,1fr)'
           }}
-          gap='6'>
+          gap='12'>
           <GridItem>
             <form>
               <Flex
@@ -386,7 +404,7 @@ export default function GeradorAds() {
                     id={'description'}
                     borderRadius={'30px'}
                     rows='6'
-                    bg={bg}
+                    borderColor={border}
                     value={resume || ''}
                     onChange={(e) => setResume(e.target.value)} />
                 </FormControl>
@@ -517,32 +535,127 @@ export default function GeradorAds() {
             colSpan={'2'}
             visibility={visibility}>
             <Flex
+              w='2xl'
               flexDir={'column'}
               bg={bg}
               display={display}
-              borderRadius={'30px'}
-              p='4'
               gap={'4'}
               alignItems={'initial'}>
-              {isLoadingT
-                ?
-                <CircularProgress
-                  isIndeterminate />
-                :
-                <Text
-                  color={'blue.400'}
-                  fontSize='lg'>
-                  {arrayTitles[index]}
-                </Text>
-              }
               {isLoadingD
                 ?
                 <CircularProgress
                   isIndeterminate />
                 :
-                <Text>
-                  {arrayDescriptions[index]}
-                </Text>
+                <Flex
+                  flexDir={'column'}
+                  gap='2'>
+                  <Flex
+                    align={'center'}
+                    gap='2'>
+                    <Avatar />
+                    <Flex
+                      flexDir={'column'}
+                      gap='1'>
+                      <Text
+                        fontWeight={'semibold'}>
+                        {company}
+                      </Text>
+                      <MdPublic color="gray" />
+                    </Flex>
+                  </Flex>
+                  <Text
+                    mb='-2'>
+                    {arrayDescriptions[index]}
+                    {/* {title1}/{title2}/{title3}/{title4}/{title5}/{title6} */}
+                  </Text>
+                </Flex>
+              }
+              {isLoadingT
+                ?
+                <CircularProgress
+                  isIndeterminate />
+                :
+                <Box
+                  boxShadow={'base'}>
+                  <Flex
+                    flexDir={'column'}
+                    bg={bg1}
+                    borderRadius={'lg'}>
+                    <Image
+                      src='/images/webpeak.png'
+                      h='md' />
+                    <Flex
+                      flexDir={'column'}
+                      p='2'
+                      fontSize={'14px'}>
+                      <Text
+                        textTransform={'uppercase'}
+                        color={'gray.600'}>
+                        {company}.com
+                      </Text>
+                      <Flex
+                        align='center'
+                        justifyContent={'space-between'}>
+                        <Text
+                          fontWeight={'bold'}
+                          fontSize='17px'>
+                          {arrayTitles[index]}
+                          {/* {description1}/{description2}/{description3} */}
+                        </Text>
+                        <Button
+                          fontSize={'sm'}
+                          bg={bg2}
+                          py='1'
+                          cursor={'default'}
+                          h='min-content'>Saiba Mais</Button>
+                      </Flex>
+                      <Text
+                        color={'gray.600'}>
+                        {arrayTitles[index]}
+                        {/* {description1}/{description2}/{description3} */}
+                      </Text>
+                    </Flex>
+                    <Divider />
+                  </Flex>
+                  <Flex
+                    justifyContent={'space-between'}
+                    px='4'
+                    py='2'
+                    fontSize={'15px'}
+                    color='gray.600'>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <AiFillLike color='#3b5998' />
+                      100 {t('curtidas')}
+                    </Flex>
+                    20 {t('comentarios')} ‎ ‎ 9 {t('compartilhamentos')}
+                  </Flex>
+                  <Flex
+                    justifyContent={'space-around'}
+                    p='2'
+                    fontSize={'15px'}
+                    color='gray.600'>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <AiOutlineLike />
+                      {t('curtir')}
+                    </Flex>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <TfiComment />
+                      {t('comentar')}
+                    </Flex>
+                    <Flex
+                      align={'center'}
+                      gap='2'>
+                      <TbShare3 />
+                      {t('compartilhar')}
+                    </Flex>
+                  </Flex>
+                </Box>
               }
               {isLoadingD
                 ?
@@ -551,7 +664,6 @@ export default function GeradorAds() {
                 :
                 <>
                   <Flex
-                    gap='2'
                     display={display}
                     flexWrap='wrap'>
                     {itemsHeadlines.map((item, idx) => (
@@ -564,7 +676,6 @@ export default function GeradorAds() {
                     ))}
                   </Flex>
                   <Flex
-                    gap='2'
                     display={display}>
                     {itemsDescriptions.map((item, idx) => (
                       <Item
@@ -590,7 +701,7 @@ export default function GeradorAds() {
                   px='2'
                   color={color}
                   fontWeight='normal'>
-                  {t('visualizar')}
+                  Visualizar títulos e descrições
                 </Button>
               </Box>
             </Flex>
@@ -626,8 +737,8 @@ export default function GeradorAds() {
             </Box>
           </GridItem>
         </Grid>
-      </Menu>
-    </ProtectedRoute>
+      </SideBar>
+    // </ProtectedRoute>
   )
 }
 const EditableField = ({

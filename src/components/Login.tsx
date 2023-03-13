@@ -30,7 +30,11 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     <>
-      <Flex gap="2" w="min-content" float={"right"} m="2">
+      <Flex 
+      gap="2" 
+      w="min-content" 
+      float={"right"} 
+      m="2">
         {!user.uid ? (
           menuItems.map((item) => (
             <Link key={item.id} href={item?.link}>
@@ -40,7 +44,12 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
             </Link>
           ))
         ) : (
-          <Button onClick={handleLogout} variant="button">
+          <Button 
+          onClick={handleLogout} 
+          variant="button"
+          pos='absolute'
+          right='8'
+          top='5'>
             Logout
           </Button>
         )}
