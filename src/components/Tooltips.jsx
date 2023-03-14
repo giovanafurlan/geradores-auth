@@ -12,7 +12,7 @@ export default function Tooltips({ label, tooltip }) {
             align={'center'}>
             <FormLabel
                 htmlFor={'description'}
-                mt='1'>
+                mt='1.5'>
                 {label}
             </FormLabel>
             <Tooltip

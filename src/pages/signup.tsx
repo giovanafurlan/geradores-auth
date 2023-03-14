@@ -31,24 +31,24 @@ const SignupPage = () => {
 
   const methods = useForm<SignupType>({ mode: "onBlur" });
 
-  ///
-  const [user, setUser] = useAuthState(auth);
+  // ///
+  // const [user, setUser] = useAuthState(auth);
 
-  const googleAuth = new GoogleAuthProvider();
+  // const googleAuth = new GoogleAuthProvider();
 
-  const logInGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleAuth);
-      router.push("/geradorTitle");
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
+  // const logInGoogle = async () => {
+  //   try {
+  //     await signInWithPopup(auth, googleAuth);
+  //     router.push("/geradorTitle");
+  //   } catch (error: any) {
+  //     console.log(error.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-  ///
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
+  // ///
 
   const {
     register,
@@ -113,12 +113,12 @@ const SignupPage = () => {
             </Button>
           </Flex>
         </form>
-        <Button onClick={logInGoogle} w="full" borderRadius={"30px"} mt="4">
+        {/* <Button onClick={logInGoogle} w="full" borderRadius={"30px"} mt="4">
           <Flex align={"center"} gap="2">
             <FcGoogle />
             <Text> Google</Text>
           </Flex>
-        </Button>
+        </Button> */}
       </FormProvider>
     </Container>
   );

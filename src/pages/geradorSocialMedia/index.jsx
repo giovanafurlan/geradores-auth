@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  Box,
   Button,
   CircularProgress,
   Flex,
@@ -12,7 +11,6 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
-  Text,
   Textarea,
   useColorModeValue
 } from "@chakra-ui/react";
@@ -23,6 +21,7 @@ import CopyClipboard from "../../components/CopyClipboard";
 import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import Descriptions from '../../components/Descriptions';
+import Keywords from '../../components/Keywords';
 
 export default function GeradorSocialMedia() {
 
@@ -45,7 +44,6 @@ export default function GeradorSocialMedia() {
   const [colorful, setColorful] = useState('gray');
 
   const bg = useColorModeValue('white', 'gray.900');
-  const color = useColorModeValue('primary', 'white');
   const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
@@ -104,17 +102,17 @@ export default function GeradorSocialMedia() {
   }, [count]);
 
   const handleKeypress = e => {
-    //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       handleAddClick();
     }
   }
 
-  const handleAddClick = (event) => {
-    // event.preventDefault();
+  const handleAddClick = () => {
     if (name != '') {
       setId(id => id + 1);
-      setKeywords(list => [...list, name]);
+      if (keywords.length < 3) {
+        setKeywords(list => [...list, name]);
+      }
       setName('');
     }
   }
@@ -127,7 +125,7 @@ export default function GeradorSocialMedia() {
   return (
     // <ProtectedRoute>>
     <SideBar
-      nomePagina={t('geradorProduto')}>
+      nomePagina={t('geradorSocialMedia')}>
       <Grid
         templateColumns={{
           lg: 'repeat(3,1fr)',
@@ -149,48 +147,15 @@ export default function GeradorSocialMedia() {
                 colorful={colorful}
                 countTag={countTag}
                 visibilityTag={visibilityTag} />
-              {/* <FormControl
-                isRequired>
-                <FormLabel
-                  htmlFor={id}>
-                  {t('topico')}
-                </FormLabel>
-                <Textarea
-                  borderRadius={'30px'}
-                  borderColor={border}
-                  id={id}
-                  rows='8'
-                  value={topic || ''}
-                  onChange={(e) => setTopic(e.target.value)} />
-              </FormControl> */}
-              <Flex
-                w='full'
-                flexDir={'column'}
-                gap='4'>
-                <Flex
-                  align={'center'}
-                  gap='2'>
-                  <Field
-                    title={t('palavraChave')}
-                    isRequired={true}
-                    value={name}
-                    onKeyPress={handleKeypress}
-                    onChange={(e) => setName(e.target.value)} />
-                  <Button
-                    onClick={handleAddClick}
-                    variant='button'
-                    mt='8'>
-                    {t('adicionar')}
-                  </Button>
-                  <Button
-                    onClick={handleClear}
-                    variant='button-outline'
-                    color={color}
-                    borderColor={color}
-                    mt='8'>
-                    {t('limpar')}
-                  </Button>
-                </Flex>
+              <Keywords
+                required={true}
+                label={t('palavraChave')}
+                tooltip={'palavraChave'}
+                name={name}
+                keyPress={handleKeypress}
+                changeName={(e) => setName(e.target.value)}
+                addClick={handleAddClick}
+                clear={handleClear}>
                 <div>
                   {keywords.map((item) => {
                     const handleRemoveClick = () => {
@@ -213,7 +178,7 @@ export default function GeradorSocialMedia() {
                     );
                   })}
                 </div>
-              </Flex>
+              </Keywords>
               <Button
                 value='Generate'
                 w='100%'
@@ -266,35 +231,5 @@ export default function GeradorSocialMedia() {
       </Grid>
     </SideBar>
     // </ProtectedRoute>
-  )
-}
-
-const Field = ({
-  isRequired,
-  id,
-  title,
-  value,
-  onChange,
-  handleKeyDown,
-  onKeyPress
-}) => {
-  const border = useColorModeValue('black', 'white');
-
-  return (
-    <FormControl
-      isRequired={isRequired}>
-      <FormLabel
-        htmlFor={id}>
-        {title}
-      </FormLabel>
-      <Input
-        borderRadius={'30px'}
-        borderColor={border}
-        id={id}
-        value={value || ''}
-        onChange={onChange}
-        onKeyDown={handleKeyDown}
-        onKeyPress={onKeyPress} />
-    </FormControl>
   )
 }
