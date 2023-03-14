@@ -10,12 +10,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../config/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { FcGoogle } from "react-icons/fc";
 
 interface SignupType {
@@ -27,6 +24,7 @@ const SignupPage = () => {
   const bg = useColorModeValue("white", "gray.900");
 
   const { signUp } = useAuth();
+  const { logInGoogle } = useAuth();
   const router = useRouter();
 
   const methods = useForm<SignupType>({ mode: "onBlur" });
@@ -113,12 +111,12 @@ const SignupPage = () => {
             </Button>
           </Flex>
         </form>
-        {/* <Button onClick={logInGoogle} w="full" borderRadius={"30px"} mt="4">
+        <Button onClick={logInGoogle} w="full" borderRadius={"30px"} mt="4">
           <Flex align={"center"} gap="2">
             <FcGoogle />
             <Text> Google</Text>
           </Flex>
-        </Button> */}
+        </Button>
       </FormProvider>
     </Container>
   );

@@ -108,7 +108,9 @@ const getTitlesProduct = async (
       },
     })
     .then((e) => {
-      return e.data;
+      return (
+        e.data
+      );
     })
     .catch((e) => {
       console.log(e);

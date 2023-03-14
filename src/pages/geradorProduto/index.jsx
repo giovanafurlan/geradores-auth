@@ -24,6 +24,12 @@ import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import DownloadTxt from "../../components/DownloadTxt";
 import Keywords from "../../components/Keywords";
+import { db } from "../../config/firebase";
+import {
+  collection,
+  addDoc
+} from "firebase/firestore";
+import { getCookie } from 'cookies-next';
 
 export default function GeradorProduto() {
 
@@ -65,6 +71,8 @@ export default function GeradorProduto() {
   const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
+
+  const userId = getCookie('uid');
 
   async function onSubmit() {
 
@@ -128,6 +136,19 @@ export default function GeradorProduto() {
 
   const arrayTitles = [`${title1}`, `${title2}`, `${title3}`];
   const arrayDescriptions = [`${description1}`, `${description2}`, `${description3}`];
+
+  async function firestore() {
+    try {
+      await addDoc(collection(db, "produtos"), {
+        user: userId,
+        arrayTitles: arrayTitles,
+        arrayDescriptions: arrayDescriptions,
+        createdAt: Date().toLocaleString()
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const [index, setIndex] = useState(0);
 
@@ -395,7 +416,7 @@ export default function GeradorProduto() {
                 changeName={(e) => setName(e.target.value)}
                 addClick={handleAddClick}
                 clear={handleClear}>
-                <div>
+                <Flex>
                   {keywords.map((item) => {
                     const handleRemoveClick = () => {
                       setKeywords(list => list.filter((entry) => entry !== item));
@@ -416,7 +437,7 @@ export default function GeradorProduto() {
                       </Tag>
                     )
                   })}
-                </div>
+                </Flex>
               </Keywords>
               <Keywords
                 required={true}
@@ -427,7 +448,7 @@ export default function GeradorProduto() {
                 changeName={(e) => setName2(e.target.value)}
                 addClick={handleAddClick2}
                 clear={handleClear2}>
-                <div>
+                <Flex>
                   {productDescription.map((item) => {
                     const handleRemoveClick = () => {
                       setProductDescription(list => list.filter((entry) => entry !== item));
@@ -448,7 +469,7 @@ export default function GeradorProduto() {
                       </Tag>
                     )
                   })}
-                </div>
+                </Flex>
               </Keywords>
               <FormControl
                 isRequired>
@@ -480,7 +501,7 @@ export default function GeradorProduto() {
                 w='100%'
                 mt='4'
                 variant='button-orange'
-                onClick={() => { onSubmit() }}>
+                onClick={() => { onSubmit(); firestore(); }}>
                 {t('gerar')}
               </Button>
             </Flex>

@@ -24,6 +24,12 @@ import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import Keywords from "../../components/Keywords";
 import Descriptions from "../../components/Descriptions";
+import { db } from "../../config/firebase";
+import {
+  collection,
+  addDoc
+} from "firebase/firestore";
+import { getCookie } from 'cookies-next';
 
 export default function GeradorAds() {
 
@@ -67,6 +73,8 @@ export default function GeradorAds() {
   const color = useColorModeValue('primary', 'white');
 
   const route = useRouter();
+
+  const userId = getCookie('uid');
 
   async function onSubmit() {
 
@@ -136,6 +144,19 @@ export default function GeradorAds() {
   const arrayTitles = [`${title1}/${title2}`, `${title3}/${title4}`, `${title5}/${title6}`];
   const arrayDescriptions = [`${description1}`, `${description2}`, `${description3}`];
 
+  function firestore() {
+    try {
+      addDoc(collection(db, "anúncios"), {
+        user: userId,
+        arrayTitles: arrayTitles,
+        arrayDescriptions: arrayDescriptions,
+        createdAt: Date().toLocaleString()
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -196,7 +217,7 @@ export default function GeradorAds() {
     }
   }
 
-  const handleAddClick = (event) => {
+  const handleAddClick = () => {
     if (name != '') {
       setId(id => id + 1);
       if (keywords.length < 3) {
@@ -206,7 +227,7 @@ export default function GeradorAds() {
     }
   }
 
-  const handleAddClick2 = (event) => {
+  const handleAddClick2 = () => {
     if (name2 != '') {
       setId2(id => id + 1);
       if (avoidKeywords.length < 3) {
@@ -385,226 +406,226 @@ export default function GeradorAds() {
 
   return (
     // <ProtectedRoute>
-      <SideBar
-        nomePagina={t('geradorAds')}>
-        <Grid
-          templateColumns={{
-            lg: 'repeat(3,1fr)',
-            sm: 'repeat(1,1fr)'
-          }}
-          gap='6'>
-          <GridItem>
-            <form>
-              <Flex
-                flexDir={'column'}
-                gap={'4'}>
-                {fields.map((item, idx) => (
-                  <Field
-                    key={idx}
-                    isRequired={item.isRequired}
-                    id={item.id}
-                    title={item.title}
-                    value={item.value}
-                    tooltip={item.tooltip}
-                    onChange={item.onChange} />
-                ))}
-                <Descriptions
-                  label={t('descricaoEmpresa')}
-                  tooltip={'descricaoEmpresa'}
-                  value={resume}
-                  changeDescription={(e) => { setResume(e.target.value); setCount(e.target.value.length) }}
-                  colorful={colorful}
-                  count={count}
-                  countTag={countTag}
-                  visibilityTag={visibilityTag} />
-                <Keywords
-                  required={true}
-                  label={t('adicionarPalavraChave')}
-                  tooltip={'adicionarPalavraChave'}
-                  name={name}
-                  keyPress={handleKeypress}
-                  changeName={(e) => setName(e.target.value)}
-                  addClick={handleAddClick}
-                  clear={handleClear}>
-                  <div>
-                    {keywords.map((item) => {
-                      const handleRemoveClick = () => {
-                        setKeywords(list => list.filter((entry) => entry !== item));
-                      };
-                      return (
-                        <Tag
-                          key={item}
-                          borderRadius='full'
-                          variant='solid'
-                          colorScheme='purple'
-                          mr='2'
-                          mb='2'>
-                          <TagLabel>
-                            {item}
-                          </TagLabel>
-                          <TagCloseButton
-                            onClick={handleRemoveClick} />
-                        </Tag>
-                      )
-                    })}
-                  </div>
-                </Keywords>
-                <Keywords
-                  required={false}
-                  label={t('evitarPalavraChave')}
-                  tooltip={'evitarPalavraChave'}
-                  name={name2}
-                  keyPress={handleKeypress2}
-                  changeName={(e) => setName2(e.target.value)}
-                  addClick={handleAddClick2}
-                  clear={handleClear2}>
-                  <div>
-                    {avoidKeywords.map((item) => {
-                      const handleRemoveClick = () => {
-                        setAvoidKeywords(list => list.filter((entry) => entry !== item));
-                      };
-                      return (
-                        <Tag
-                          key={item}
-                          borderRadius='full'
-                          variant='solid'
-                          colorScheme='purple'
-                          mr='2'
-                          mb='2'>
-                          <TagLabel>
-                            {item}
-                          </TagLabel>
-                          <TagCloseButton
-                            onClick={handleRemoveClick} />
-                        </Tag>
-                      )
-                    })}
-                  </div>
-                </Keywords>
-                <Button
-                  value='Generate'
-                  w='100%'
-                  variant='button-orange'
-                  onClick={() => { onSubmit() }}>
-                  {t('gerar')}
-                </Button>
-              </Flex>
-            </form>
-          </GridItem>
-          <GridItem
-            colSpan={'2'}
-            visibility={visibility}>
+    <SideBar
+      nomePagina={t('geradorAds')}>
+      <Grid
+        templateColumns={{
+          lg: 'repeat(3,1fr)',
+          sm: 'repeat(1,1fr)'
+        }}
+        gap='6'>
+        <GridItem>
+          <form>
             <Flex
               flexDir={'column'}
-              bg={bg}
-              display={display}
-              borderRadius={'30px'}
-              p='4'
-              gap={'4'}
-              alignItems={'initial'}>
-              {isLoadingT
-                ?
-                <CircularProgress
-                  isIndeterminate />
-                :
-                <Text
-                  color={'blue.400'}
-                  fontSize='lg'>
-                  {arrayTitles[index]}
-                </Text>
-              }
-              {isLoadingD
-                ?
-                <CircularProgress
-                  isIndeterminate />
-                :
-                <Text>
-                  {arrayDescriptions[index]}
-                </Text>
-              }
-              {isLoadingD
-                ?
-                <CircularProgress
-                  isIndeterminate />
-                :
-                <>
-                  <Flex
-                    gap='2'
-                    display={display}
-                    flexWrap='wrap'>
-                    {itemsHeadlines.map((item, idx) => (
-                      <Item
-                        key={idx}
-                        color={item.color}
-                        title={item.title}
-                        total={item.total}
-                        cont={item.cont} />
-                    ))}
-                  </Flex>
-                  <Flex
-                    gap='2'
-                    display={display}>
-                    {itemsDescriptions.map((item, idx) => (
-                      <Item
-                        key={idx}
-                        color={item.color}
-                        title={item.title}
-                        total={item.total}
-                        cont={item.cont} />
-                    ))}
-                  </Flex>
-                </>
-              }
-              <Box
-                w='100%'>
-                <Button
-                  onClick={handleEdit}
-                  bg='none'
-                  border='1px'
-                  borderRadius={'30px'}
-                  borderColor={color}
-                  display={display}
-                  w='min-content'
-                  px='2'
-                  color={color}
-                  fontWeight='normal'>
-                  {t('visualizar')}
-                </Button>
-              </Box>
+              gap={'4'}>
+              {fields.map((item, idx) => (
+                <Field
+                  key={idx}
+                  isRequired={item.isRequired}
+                  id={item.id}
+                  title={item.title}
+                  value={item.value}
+                  tooltip={item.tooltip}
+                  onChange={item.onChange} />
+              ))}
+              <Descriptions
+                label={t('descricaoEmpresa')}
+                tooltip={'descricaoEmpresa'}
+                value={resume}
+                changeDescription={(e) => { setResume(e.target.value); setCount(e.target.value.length) }}
+                colorful={colorful}
+                count={count}
+                countTag={countTag}
+                visibilityTag={visibilityTag} />
+              <Keywords
+                required={true}
+                label={t('adicionarPalavraChave')}
+                tooltip={'adicionarPalavraChave'}
+                name={name}
+                keyPress={handleKeypress}
+                changeName={(e) => setName(e.target.value)}
+                addClick={handleAddClick}
+                clear={handleClear}>
+                <Flex>
+                  {keywords.map((item) => {
+                    const handleRemoveClick = () => {
+                      setKeywords(list => list.filter((entry) => entry !== item));
+                    };
+                    return (
+                      <Tag
+                        key={item}
+                        borderRadius='full'
+                        variant='solid'
+                        colorScheme='purple'
+                        mr='2'
+                        mb='2'>
+                        <TagLabel>
+                          {item}
+                        </TagLabel>
+                        <TagCloseButton
+                          onClick={handleRemoveClick} />
+                      </Tag>
+                    )
+                  })}
+                </Flex>
+              </Keywords>
+              <Keywords
+                required={false}
+                label={t('evitarPalavraChave')}
+                tooltip={'evitarPalavraChave'}
+                name={name2}
+                keyPress={handleKeypress2}
+                changeName={(e) => setName2(e.target.value)}
+                addClick={handleAddClick2}
+                clear={handleClear2}>
+                <Flex>
+                  {avoidKeywords.map((item) => {
+                    const handleRemoveClick = () => {
+                      setAvoidKeywords(list => list.filter((entry) => entry !== item));
+                    };
+                    return (
+                      <Tag
+                        key={item}
+                        borderRadius='full'
+                        variant='solid'
+                        colorScheme='purple'
+                        mr='2'
+                        mb='2'>
+                        <TagLabel>
+                          {item}
+                        </TagLabel>
+                        <TagCloseButton
+                          onClick={handleRemoveClick} />
+                      </Tag>
+                    )
+                  })}
+                </Flex>
+              </Keywords>
+              <Button
+                value='Generate'
+                w='100%'
+                variant='button-orange'
+                onClick={() => { onSubmit(); firestore(); }}>
+                {t('gerar')}
+              </Button>
             </Flex>
+          </form>
+        </GridItem>
+        <GridItem
+          colSpan={'2'}
+          visibility={visibility}>
+          <Flex
+            flexDir={'column'}
+            bg={bg}
+            display={display}
+            borderRadius={'30px'}
+            p='4'
+            gap={'4'}
+            alignItems={'initial'}>
+            {isLoadingT
+              ?
+              <CircularProgress
+                isIndeterminate />
+              :
+              <Text
+                color={'blue.400'}
+                fontSize='lg'>
+                {arrayTitles[index]}
+              </Text>
+            }
+            {isLoadingD
+              ?
+              <CircularProgress
+                isIndeterminate />
+              :
+              <Text>
+                {arrayDescriptions[index]}
+              </Text>
+            }
+            {isLoadingD
+              ?
+              <CircularProgress
+                isIndeterminate />
+              :
+              <>
+                <Flex
+                  gap='2'
+                  display={display}
+                  flexWrap='wrap'>
+                  {itemsHeadlines.map((item, idx) => (
+                    <Item
+                      key={idx}
+                      color={item.color}
+                      title={item.title}
+                      total={item.total}
+                      cont={item.cont} />
+                  ))}
+                </Flex>
+                <Flex
+                  gap='2'
+                  display={display}>
+                  {itemsDescriptions.map((item, idx) => (
+                    <Item
+                      key={idx}
+                      color={item.color}
+                      title={item.title}
+                      total={item.total}
+                      cont={item.cont} />
+                  ))}
+                </Flex>
+              </>
+            }
             <Box
-              display={display2}
               w='100%'>
-              <Grid
-                templateColumns={{
-                  lg: 'repeat(2,1fr)'
-                }}
-                flexDir={'column'}
-                gap='4'>
-                {editFields.map((item, idx) => (
-                  <EditableField
-                    key={idx}
-                    id={item.id}
-                    title={item.title}
-                    value={item.value}
-                    onChange={item.onChange}
-                    colSpan={item.colSpan} />
-                ))}
-                <GridItem
-                  colSpan={2}>
-                  <Button
-                    onClick={handleSave}
-                    float='right'
-                    variant='button-orange'
-                    w='40'>
-                    {t('salvar')}
-                  </Button>
-                </GridItem>
-              </Grid>
+              <Button
+                onClick={handleEdit}
+                bg='none'
+                border='1px'
+                borderRadius={'30px'}
+                borderColor={color}
+                display={display}
+                w='min-content'
+                px='2'
+                color={color}
+                fontWeight='normal'>
+                {t('visualizar')}
+              </Button>
             </Box>
-          </GridItem>
-        </Grid>
-      </SideBar>
+          </Flex>
+          <Box
+            display={display2}
+            w='100%'>
+            <Grid
+              templateColumns={{
+                lg: 'repeat(2,1fr)'
+              }}
+              flexDir={'column'}
+              gap='4'>
+              {editFields.map((item, idx) => (
+                <EditableField
+                  key={idx}
+                  id={item.id}
+                  title={item.title}
+                  value={item.value}
+                  onChange={item.onChange}
+                  colSpan={item.colSpan} />
+              ))}
+              <GridItem
+                colSpan={2}>
+                <Button
+                  onClick={handleSave}
+                  float='right'
+                  variant='button-orange'
+                  w='40'>
+                  {t('salvar')}
+                </Button>
+              </GridItem>
+            </Grid>
+          </Box>
+        </GridItem>
+      </Grid>
+    </SideBar>
     // </ProtectedRoute>
   )
 }

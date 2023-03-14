@@ -22,6 +22,12 @@ import SideBar from '../../components/SideBar';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import Descriptions from '../../components/Descriptions';
 import Keywords from '../../components/Keywords';
+import { db } from "../../config/firebase";
+import {
+  collection,
+  addDoc
+} from "firebase/firestore";
+import { getCookie } from 'cookies-next';
 
 export default function GeradorInstagram() {
 
@@ -47,6 +53,8 @@ export default function GeradorInstagram() {
   const border = useColorModeValue('black', 'white');
 
   const route = useRouter();
+
+  const userId = getCookie('uid');
 
   async function onSubmit() {
 
@@ -81,6 +89,18 @@ export default function GeradorInstagram() {
         console.log(err);
       })
       .finally();
+  }
+
+  function firestore() {
+    try {
+      addDoc(collection(db, "instagram"), {
+        user: userId,
+        result: result,
+        createdAt: Date().toLocaleString()
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -156,7 +176,7 @@ export default function GeradorInstagram() {
                 changeName={(e) => setName(e.target.value)}
                 addClick={handleAddClick}
                 clear={handleClear}>
-                <div>
+                <Flex>
                   {keywords.map((item) => {
                     const handleRemoveClick = () => {
                       setKeywords(list => list.filter((entry) => entry !== item));
@@ -177,14 +197,14 @@ export default function GeradorInstagram() {
                       </Tag>
                     );
                   })}
-                </div>
+                </Flex>
               </Keywords>
               <Button
                 value='Generate'
                 w='100%'
                 mt='4'
                 variant='button-orange'
-                onClick={() => { onSubmit() }}>
+                onClick={() => { onSubmit(); firestore(); }}>
                 {t('gerar')}
               </Button>
             </Flex>
